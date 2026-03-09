@@ -19,4 +19,4 @@ Large Language Models represent a specific application of deep learning techniqu
 
 Why did I start this project? First, LLMs possess advanced capabilities to parse and understand unstructured text data across nearly every occupation. According to the recent Anthropic report, 'Labor Market Impacts of AI: A New Measure and Early Evidence' (published March 5, 2026, by Maxim Massenkoff and Peter McCrory), the most significant impacts are seen in business, finance, computer science, legal, and administrative sectors.
 
-Coding an LLM from scratch is an excellent exercise for understanding its mechanisms and limitations. Furthermore, since most modern LLMs are built using the PyTorch deep learning library, this project provides me with valuable experience with the industry's leading tool. 
+Coding an LLM from scratch will be an excellent exercise for me to understand its mechanisms and limitations. Since I will be using PyTorch, this project will give me valuable experience with a tool used to build LLMs.

@@ -27,3 +27,12 @@ Also, LLMs use self-supervised learning during the pre-trained stage, which allo
 
 As I understand it, once we have obtained a pre-trained LLM, it can be further enhanced by training it on labeled data. This process is called fine-tuning. A fine-tuned LLM is used for tasks like classification, summarization, translation, building personal assistants, and more.
 
+### Transformer architecture and Attention mechanism
+
+Modern LLMs rely on the Transformer architecture. The Transformer was introduced by a Google team in the paper 'Attention Is All You Need' (Vaswani et al., 2017). As I want to understand LLMs, I will examine this mechanism.
+
+Vaswani et al. proposed the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output. Before Transformers, models like Recurrent Neural Networks (RNNs), Long Short-Term Memory (LSTM), and Gated Recurrent Units (GRU) were the standard. These models processed text sequentially, word by word. Unlike these models, the Transformer can process entire sequences of data simultaneously due to parallelization.
+
+According to the article, the Transformer follows an encoder-decoder structure. The encoder maps an input sequence of symbol representations (x1, x2, ..., xn) to a sequence of continuous representations (z1, z2, ..., zn). The decoder then uses z to generate an output sequence, one element at a time. A key feature of this process is that the model is auto-regressive, meaning it consumes previously generated symbols as additional input when generating the next.
+
+The article also highlights the use of Multi-Head Attention. The Multi-Head Attention mechanism consists of several attention heads (essentially self-attention layers) running in parallel. This allows the model to jointly attend to information from different representation subspaces at different positions. As the authors note, with a single attention head, averaging inhibits this ability.

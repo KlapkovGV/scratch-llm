@@ -29,7 +29,7 @@ As I understand it, once we have obtained a pre-trained LLM, it can be further e
 
 ### Transformer architecture and Attention mechanism
 
-Modern LLMs rely on the Transformer architecture. The Transformer was introduced by a Google team in the paper 'Attention Is All You Need' (Vaswani et al., 2017). As I want to understand LLMs, I will examine this mechanism.
+Modern LLMs rely on the Transformer architecture. The Transformer was introduced by a Google team in the article 'Attention Is All You Need' (Vaswani et al., 2017). As I want to understand LLMs, I will examine this architecture.
 
 Vaswani et al. proposed the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output. Before Transformers, models like Recurrent Neural Networks (RNNs), Long Short-Term Memory (LSTM), and Gated Recurrent Units (GRU) were the standard. These models processed text sequentially, word by word. Unlike these models, the Transformer can process entire sequences of data simultaneously due to parallelization.
 

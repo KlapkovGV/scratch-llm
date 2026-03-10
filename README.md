@@ -20,3 +20,10 @@ Large Language Models represent a specific application of deep learning techniqu
 Why did I start this project? First, LLMs possess advanced capabilities to parse and understand unstructured text data across nearly every occupation. According to the recent Anthropic report, 'Labor Market Impacts of AI: A New Measure and Early Evidence' (published March 5, 2026, by Maxim Massenkoff and Peter McCrory), the most significant impacts are seen in business, finance, computer science, legal, and administrative sectors.
 
 Coding an LLM from scratch will be an excellent exercise for me to understand its mechanisms and limitations. Since I will be using PyTorch, this project will give me valuable experience with a tool used to build LLMs.
+
+To create an LLM, we need a vast amount of raw data. Here, raw data refers to ordinary text that has no manual labeling. After collecting the raw data, we train the LLM on this text. Upon completion of the training stage, we obtain a pre-trained LLM, also known as a foundation model. Theoretically, such a model is capable of text completion (completing an incomplete sentence) and possesses limited few-shot learning capabilities.
+
+Also, LLMs use self-supervised learning during the pre-trained stage, which allows the model to generate its own labels directly from unlabeled data. This enables the model to learn without human annotation. Specifically, the model learns by predicting parts of the input data that have been intentionally masked. 
+
+As I understand it, once we have obtained a pre-trained LLM, it can be further enhanced by training it on labeled data. This process is called fine-tuning. A fine-tuned LLM is used for tasks like classification, summarization, translation, building personal assistants, and more.
+

@@ -33,9 +33,18 @@ The Transformer was introduced by a Google team in the article 'Attention Is All
 
 Vaswani et al. proposed the Transformer, a model architecture that avoid recurrence and relies entirely on an attention mechanism to draw global dependencies between input and output. Before Transformers, models like Recurrent Neural Networks (RNNs), Long Short-Term Memory (LSTM), and Gated Recurrent Units (GRU) were the standard. These models processed text sequentially, word by word. Unlike these models, the Transformer can process entire sequences of data simultaneously due to parallelization.
 
+### Encoder and Decoder structure
+
 According to the article, the Transformer use an encoder-decoder architecture. The encoder maps an input sequence of symbol representations (x1, x2, ..., xn) to a sequence of continuous representations (z1, z2, ..., zn). The decoder then uses z to generate an output sequence, one element at a time. A key feature of this process is that the model is auto-regressive, meaning it uses previously generated symbols/token as input when generating the next one.
 
-A key component of the Transformer is the self-attention mechanism. It weighs the importance of different words or tokens in a sequence in order to capture contextual relationships and long-range dependencies.
+The encoder is composed of a stack of Nx identical layers. Each layer is a small block with two sub-layers. The first sub-layer is a multi-head self-attention mechanism, and the second is a position-wise feed-forward network. Around each of these sub-layers, the authors apply a residual connection followed by layer normalization.
+
+- a residual connection means that instead of passing only the result of a sub-layer forward, they add the original input back to it. I guess it is for gradients during backpropagation;
+- layer normalization stabilizes the output by rescaling the values.
+
+The decoder is also composed of a stack of Nx identical layers. It follows the same structure but introduces a third sub-layer between the self-attention and feed-forward sub-layers. This additional sub-layer performs multi-head attention over the output of the encoder. Also, the decoder uses masked multi-head attention, which masks future positions to ensure that predictions for a given token can only depend on the known outputs at previous positions.
+
+A key component of the Transformer is the self-attention mechanism. It weighs the importance of different words or tokens in a sequence in order to capture contextual relationships and long-range dependencies. 
 
 ### What is GPT
 

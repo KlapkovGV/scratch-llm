@@ -37,6 +37,10 @@ According to the article, the Transformer use an encoder-decoder architecture. T
 
 A key component of the Transformer is the self-attention mechanism. It weighs the importance of different words or tokens in a sequence in order to capture contextual relationships and long-range dependencies.
 
+### What is GPT
+
+The first GPT was introduced by the OpenAI team in the paper "Improving Language Understanding by Generative Pre-Training" (Radford et al., 2018). The authors proposed an approach based on a two-stage training procedure. **Unsupervised pre-training**, as the first stage, trains the model on a large corpus of unlabeled text using a multi-layer Transformer decoder as the language model. The second stage is **supervised fine-tuning**, where the pre-trained model's parameters are adapted to a specific supervised task, such as text classification, question answering, and semantic similarity assessment.
+
 
 
 

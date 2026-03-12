@@ -44,9 +44,17 @@ The encoder is composed of a stack of Nx identical layers. Each layer is a small
 
 The decoder is also composed of a stack of Nx identical layers. It follows the same structure but introduces a third sub-layer between the self-attention and feed-forward sub-layers. This additional sub-layer performs multi-head attention over the output of the encoder. Also, the decoder uses masked multi-head attention, which masks future positions to ensure that predictions for a given token can only depend on the known outputs at previous positions.
 
-A key component of the Transformer is the self-attention mechanism. It weighs the importance of different words or tokens in a sequence in order to capture contextual relationships and long-range dependencies. 
+### Attention Function
 
-### What is GPT
+According to the article, the attention function takes three vectors as input a **Query (Q)**, a **Key (K)**, and a **Value (V)**, and maps them to an output. Particualr attention, which is authors called **Scaled Dot-Product Attention**, where the computation is performed on a set of queries packed into a matrix Q, with key and values packed into matrices K and V. Softmax is used to convert the scores into a probability distribution.
+
+Instead of performing a single attention function, the authors propose **Multi-Head Attention**, which runs the attention function h times in parallel, each time with different learned linear projections of Q, K, and V. This allows the model to jointly attend to information from different representation subspaces at different positions.
+
+### Positional encoding
+
+The Transformer has no built-in sense of token order since it has no recurrence. To address this, positional encodings are added to the input embeddings. These are vectors computed using sine and cosine functions of different frequencies.
+
+### About GPT-1
 
 The first GPT was introduced by the OpenAI team in the paper "Improving Language Understanding by Generative Pre-Training" (Radford et al., 2018). The authors proposed an approach based on a two-stage training procedure. **Unsupervised pre-training**, as the first stage, trains the model on a large corpus of unlabeled text using a multi-layer Transformer decoder as the language model. The second stage is **supervised fine-tuning**, where the pre-trained model's parameters are adapted to a specific supervised task, such as text classification, question answering, and semantic similarity assessment.
 

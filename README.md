@@ -7,7 +7,7 @@ Large Language Models (LLMs) are deep neural network models designed to understa
 
 Earlier NLP models were typically narrow and designed for specific tasks (like basic human-to-machine communication or simple filtering). Now, modern LLMs demonstrate broad proficiency, meaning they can handle many different types of tasks simultaneously without needing a separate model for each one.
 
-The term 'large' in Large Language Model (LLM) refers to two main factors: the model's total parameter count and the massive dataset on which it is trained. Regarding parameters, modern models typically consist of billions of them. During training, these internal weights are adjusted to master next-token prediction. By leveraging the sequential nature of language, the model learns to recognize complex relationships and structural nuances within the text.
+The term 'Large' in Large Language Model (LLM) refers to two main factors: the model's total parameter count and the massive dataset on which it is trained. Regarding parameters, modern models typically consist of billions of them. During training, these internal weights are adjusted to master next-token prediction. By leveraging the sequential nature of language, the model learns to recognize complex relationships and structural nuances within the text.
 
 I also want to mention that LLMs utilize the Transformer architecture. This architecture is a specific design that allows the model to 'pay attention' to the most important parts of the text.
 
@@ -74,3 +74,12 @@ To obtain a foundation model, the LLM is trained on unlabeled data, evaluated, a
 
 The third stage is project-specific as I understand, and requires defining the goal of the LLM. So the basis of the third stage is a labeled dataset that is loaded and used for fine-tuning the pretrained model. After fine-tuning, the model can be used for specific purposes, for example, as a text classifier or a personal assistant.
 
+### Why we need word embeddings
+
+Raw text cannot be directly processed by an LLM because LLM is a deep neural network model, and neural networks cannot work with categorical data. The LLM requires vector formats to perform mathematical operations during training. Therefore, raw text must be represented as continuous vectors.
+
+This process relates to a fundamental concept in machine learning and AI called **embedding**. Embedding is the concept of transforming data into a numerical vector representation that computers can process and understand. It is worth mentioning that different data formats require distinct embedding models — text, video, and audio each have their own embedding approaches.
+
+A vector is simply a list of numbers. For example, the word 'cat' can be represented as [0.2, -0.5, 1.3, 0.8]. The higher the dimensionality of the vector, the more information it can store. The key idea is that similar words have similar vectors. 
+
+It is also worth mentioning that LLMs do not rely on a separate pre-built word embedding model. Instead, LLMs create their own embedding layers as part of the LLM pipeline. 

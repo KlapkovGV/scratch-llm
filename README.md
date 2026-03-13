@@ -74,6 +74,8 @@ To obtain a foundation model, the LLM is trained on unlabeled data, evaluated, a
 
 The third stage is project-specific as I understand, and requires defining the goal of the LLM. So the basis of the third stage is a labeled dataset that is loaded and used for fine-tuning the pretrained model. After fine-tuning, the model can be used for specific purposes, for example, as a text classifier or a personal assistant.
 
+## How I understand data preprocessing
+
 ### Why we need word embeddings
 
 Raw text cannot be directly processed by an LLM because LLM is a deep neural network model, and neural networks cannot work with categorical data. The LLM requires vector formats to perform mathematical operations during training. Therefore, raw text must be represented as continuous vectors.

@@ -58,8 +58,19 @@ The Transformer has no built-in sense of token order since it has no recurrence.
 
 The first GPT was introduced by the OpenAI team in the paper "Improving Language Understanding by Generative Pre-Training" (Radford et al., 2018). The authors proposed an approach based on a two-stage training procedure. **Unsupervised pre-training**, as the first stage, trains the model on a large corpus of unlabeled text using a multi-layer Transformer decoder as the language model. The second stage is **supervised fine-tuning**, where the pre-trained model's parameters are adapted to a specific supervised task, such as text classification, question answering, and semantic similarity assessment.
 
+## How I will create a large language model
 
+As I mentioned earlier, I will create a large language model following the methodology described in the book "Build a Large Language Model (from Scratch)" by Sebastian Raschka. At the end of the first chapter there is a clear diagram of the process of creating an LLM. The process consists of three main stages.
 
+### Stage 1 — Building an LLM
 
+The first stage involves data preparation and sampling, implementing the attention mechanism, and building the LLM architecture. After the model is built, it is ready for pretraining.
 
+### Stage 2 — Obtaining a Foundation Model
+
+To obtain a foundation model, the LLM is trained on unlabeled data, evaluated, and the pretrained weights are loaded. At this stage, the model is already capable of generating new text.
+
+### Stage 3 — Fine-tuning
+
+The third stage is project-specific as I understand, and requires defining the goal of the LLM. So the basis of the third stage is a labeled dataset that is loaded and used for fine-tuning the pretrained model. After fine-tuning, the model can be used for specific purposes, for example, as a text classifier or a personal assistant.
 

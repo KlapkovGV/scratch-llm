@@ -94,7 +94,7 @@ The required steps for preparing embeddings used by an LLM are:
 
 ### How input text be splited into tokens
 
-In this section I want to describe how the tokenization process works using a simple example with Python's regular expression library. It is also worth mentioning that LLMs use prebuilt tokenizers in practice — for example, tiktoken from OpenAI, which is used in GPT. Such tokenizers are already optimized, work faster, and use BPE.
+In this section I want to show how the tokenization process works using a simple example with Python's regular expression library. It is also worth mentioning that LLMs use prebuilt tokenizers in practice — for example, tiktoken from OpenAI, which is used in GPT. Such tokenizers are already optimized, work faster, and use BPE.
 
 Splitting text into individual tokens is a required preprocessing step for creating embeddings for an LLM. I practiced this with an example from Raschka's repository on GitHub, using the file "the-verdict.txt". First, the file contains a total of 20,479 characters, which need to be tokenized into individual words and special characters. These tokens are then converted into token IDs using a vocabulary, and later into embedding vectors that the LLM can process.
 

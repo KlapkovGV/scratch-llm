@@ -85,3 +85,17 @@ This process relates to a fundamental concept in machine learning and AI called 
 A vector is simply a list of numbers. For example, the word 'cat' can be represented as [0.2, -0.5, 1.3, 0.8]. The higher the dimensionality of the vector, the more information it can store. The key idea is that similar words have similar vectors. 
 
 It is also worth mentioning that LLMs do not rely on a separate pre-built word embedding model. Instead, LLMs create their own embedding layers as part of the LLM pipeline. 
+
+Embeddings need to be optimized for the specific task. In the context of LLMs, embeddings have a much higher dimensionality compared to traditional word embeddings, because the model needs to capture complex relationships and patterns across large amounts of text.
+
+The required steps for preparing embeddings used by an LLM are:
+- splitting text into words and converting words into tokens;
+- turning tokens into embedding vectors.
+
+### How input text be splited into tokens
+
+In this section I want to describe how the tokenization process works using a simple example with Python's regular expression library. It is also worth mentioning that LLMs use prebuilt tokenizers in practice — for example, tiktoken from OpenAI, which is used in GPT. Such tokenizers are already optimized, work faster, and use BPE.
+
+Splitting text into individual tokens is a required preprocessing step for creating embeddings for an LLM. I practiced this with an example from Raschka's repository on GitHub, using the file "the-verdict.txt". First, the file contains a total of 20,479 characters, which need to be tokenized into individual words and special characters. These tokens are then converted into token IDs using a vocabulary, and later into embedding vectors that the LLM can process.
+
+To split the text I used Python's regular expression library `re`. The splitting is performed using the `re.split` command: `re.split(r'([,.:;?_!"()\']|--|\s)', text)`. Here, each character inside the brackets — such as commas, periods, punctuation marks, question marks, and quotation marks — is treated as a separate token. Additionally, double dashes -- and whitespaces \s are also split into separate tokens via the | operator. After splitting, whitespaces are removed by `strip()` command so that the tokenizer works more efficiently. The first 10 tokens of the resulting output are: `['I', 'HAD', 'always', 'thought', 'Jack', 'Gisburn', 'rather', 'a', 'cheap', 'genius']`

@@ -104,4 +104,8 @@ To split the text I used Python's regular expression library `re`. The splitting
 
 Token IDs are an intermediate representation used before converting tokens into embedding vectors. Each token ID is an integer in the range `[0, vocab_size-1]`.
 
-The mapping tokens to token IDs is done via a vocabulary. This vocabulary or a dictionary we can build from the training dataset. The vocabulary collects all unique tokens (words and special characters), sorts them alphabetically, and assigns each a unique integer. 
+In a basic tokenizer, the mapping tokens to token IDs is done via a dictionary built from a training dataset. This is the simple approach. The vocabulary collects all unique tokens (words and special characters), sorts them alphabetically, and assigns each a unique integer. 
+
+A major limitation of this approach is that it struggles with unknown words. Words that were not present in the training vocabulary. Depending on the implementation, it either raises an error or replaces the unknown word with a special '<unk>' token.
+
+As I understand, GPT models use **Byte Pair Encoding (BPE)**, a more modern tokenization approach. I found a clear implementation of BPE in 'tiktoken', an open-source library from OpenAI. BPE is a tokenization algorithm that converts text into tokens. It can handle any words, for example, common words are converted into tokens directly, while unknown words are broken down into smaller subword and then represented as a sequence of subword tokens.

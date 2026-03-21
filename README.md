@@ -110,9 +110,10 @@ A major limitation of this approach is that it struggles with unknown words. Wor
 
 As I understand, GPT models use **Byte Pair Encoding (BPE)**, a more modern tokenization approach. I found a clear implementation of BPE in 'tiktoken', an open-source library from OpenAI. BPE is a tokenization algorithm that converts text into tokens. It can handle any words, for example, common words are converted into tokens directly, while unknown words are broken down into smaller subword and then represented as a sequence of subword tokens.
 
-### Mastering Data Sampling for an LLM
+### Understanding Data Sampling for an LLM
 
 I have learned that a tokenizer converts raw text into a list of token IDs. But how is this data actually fed into the LLM? I know that an LLM has its own embedding layer which processes input token IDs into vectors. One crucial aspect here is about next word prediction. That is why the sliding window approach is applied. But what is it?
 
-As I understand it, the model has a limited context window — a maximum number of tokens it can process at once. Before loading token IDs into an LLM, we need to collect inputs into the first tensor and targets into the second tensor. From the token IDs, two tensors are created. The target tensor is simply the input tensor shifted by one position to the right. This is the sliding window approach — the way the model learns to predict the next word based on the previous ones without losing connections between them.
+As I understand it, the model has a limited context window — a maximum number of tokens it can process at once. Before loading data into an LLM, we collect tokens and use a sliding window approach to chunk tokens into overlapping sequences. The result of this process is the creation of two tensors: an input tensor and a target tensor. The target tensor is simply the input tensor shifted by one position.
+
 

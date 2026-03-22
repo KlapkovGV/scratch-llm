@@ -116,4 +116,45 @@ I have learned that a tokenizer converts raw text into a list of token IDs. But 
 
 As I understand it, the model has a limited context window — a maximum number of tokens it can process at once. Before loading data into an LLM, we collect tokens and use a sliding window approach to chunk tokens into overlapping sequences. The result of this process is the creation of two tensors: an input tensor and a target tensor. The target tensor is simply the input tensor shifted by one position.
 
+### How token IDs are converted to embeddings
+
+This is the final step of the input processing pipeline. Previously, I covered the workflow involving input text, tokenization, and the generation of token IDs. Now, these IDs need to be transitioned into continuous vector representations.
+
+```mermaid
+graph LR
+    A[Input Text] --> B[Tokenization]
+    B --> C[Token IDs]
+    subgraph "Embedding Phase"
+    C --> D[Token Embeddings]
+    E[Position IDs 0,1,2,3...] --> F[Positional Embeddings]
+    D --> G{Vector Addition}
+    F --> G
+    end
+    G --> H[Final Input Embeddings]
+    H --> I[LLM Layers]
+    
+    style G fill:#f9f,stroke:#333,stroke-width:2px
+    style H fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+I have implemented this process and will explain it here. I started with a tensor of token IDs generated from the previous step. In this example, I used a batch of 8 sequences, each containing 4 tokens:
+
+```md
+tensor([[  112,  5431,   202,  8821],
+        [  654,   311,  4004,   556],
+        [ 2245,  7722,   801,   222],
+        [ 4210,   541,  2023,    66],
+        [   88,  6654,   131,  3432],
+        [ 4521,   410,  5712,   209],
+        [  782,  2290,   654,   421],
+        [  531,  8001,    22,   654]])
+```
+
+The shape of this tensor is `torch.Size([8, 4]).
+
+Now this representation (tensor) needs to be converted to embeddings. First, we need to define the vocabulary size and dimensions for the embeddings. I configured the parameters according to the GPT-2 standard:
+- Vocabulary Size: 50,257 tokens;
+- Embedding Dimension: 256.
+
+Technically, I created an embedding layer using torch.nn.Embedding(50257, 256). This layer acts as a weight matrix with 50,257 rows and 256 columns. By applying this layer to my tensor, every token ID was replaced by its corresponding 256-dimensional vector. As a result, the output tensor now has a shape of `torch.Size([8, 4, 256])`.
 

@@ -58,22 +58,6 @@ The Transformer has no built-in sense of token order since it has no recurrence.
 
 The first GPT was introduced by the OpenAI team in the paper "Improving Language Understanding by Generative Pre-Training" (Radford et al., 2018). The authors proposed an approach based on a two-stage training procedure. **Unsupervised pre-training**, as the first stage, trains the model on a large corpus of unlabeled text using a multi-layer Transformer decoder as the language model. The second stage is **supervised fine-tuning**, where the pre-trained model's parameters are adapted to a specific supervised task, such as text classification, question answering, and semantic similarity assessment.
 
-## How I will create a large language model
-
-As I mentioned earlier, I will create a large language model following the methodology described in the book "Build a Large Language Model (from Scratch)" by Sebastian Raschka. At the end of the first chapter there is a clear diagram of the process of creating an LLM. The process consists of three main stages.
-
-### Stage 1 — Building an LLM
-
-The first stage involves data preparation and sampling, implementing the attention mechanism, and building the LLM architecture. After the model is built, it is ready for pretraining.
-
-### Stage 2 — Obtaining a Foundation Model
-
-To obtain a foundation model, the LLM is trained on unlabeled data, evaluated, and the pretrained weights are loaded. At this stage, the model is already capable of generating new text.
-
-### Stage 3 — Fine-tuning
-
-The third stage is project-specific as I understand, and requires defining the goal of the LLM. So the basis of the third stage is a labeled dataset that is loaded and used for fine-tuning the pretrained model. After fine-tuning, the model can be used for specific purposes, for example, as a text classifier or a personal assistant.
-
 ## How I understand data preprocessing
 
 ### Why we need word embeddings
@@ -92,13 +76,13 @@ The required steps for preparing embeddings used by an LLM are:
 - splitting text into words and converting words into tokens;
 - turning tokens into embedding vectors.
 
-### How input text be splited into tokens
+### How input text is split into tokens
 
 In this section I want to show how I understand the tokenization process works using a simple example with Python's regular expression library. It is also worth mentioning that LLMs use prebuilt tokenizers in practice — for example, tiktoken from OpenAI, which is used in GPT. Such tokenizers are already optimized, work faster, and use BPE.
 
 Splitting text into individual tokens is a required preprocessing step for creating embeddings for an LLM. I practiced this with an example from Raschka's repository on GitHub, using the file "the-verdict.txt". First, the file contains a total of 20,479 characters, which need to be tokenized into individual words and special characters. These tokens are then converted into token IDs using a vocabulary, and later into embedding vectors that the LLM can process.
 
-To split the text I used Python's regular expression library `re`. The splitting is performed using the `re.split` command: `re.split(r'([,.:;?_!"()\']|--|\s)', text)`. Here, each character inside the brackets — such as commas, periods, punctuation marks, question marks, and quotation marks — is treated as a separate token. Additionally, double dashes -- and whitespaces \s are also split into separate tokens via the | operator. After splitting, whitespaces are removed by `strip()` command so that the tokenizer works more efficiently. The first 10 tokens of the resulting output are: `['I', 'HAD', 'always', 'thought', 'Jack', 'Gisburn', 'rather', 'a', 'cheap', 'genius']`.
+To split the text I used Python's regular expression library `re`. The splitting is performed using the `re.split` command that recognizes punctuation marks, quotation marks, and double dashes as individual tokens. This ensures that a word followed by a comma is treated as two separate entities. After splitting, I applied the strip() command to remove unnecessary whitespaces. The first 10 tokens of the resulting output are: `['I', 'HAD', 'always', 'thought', 'Jack', 'Gisburn', 'rather', 'a', 'cheap', 'genius']`.
 
 ### How tokens are converted to token IDs
 
@@ -140,14 +124,14 @@ graph LR
 I have implemented this process and will explain it here. I started with a tensor of token IDs generated from the previous step. In this example, I used a batch of 8 sequences, each containing 4 tokens:
 
 ```md
-tensor([[  112,  5431,   202,  8821],
-        [  654,   311,  4004,   556],
-        [ 2245,  7722,   801,   222],
-        [ 4210,   541,  2023,    66],
-        [   88,  6654,   131,  3432],
-        [ 4521,   410,  5712,   209],
-        [  782,  2290,   654,   421],
-        [  531,  8001,    22,   654]])
+tensor([[  287,   262,  6001,   286],
+        [  465, 13476,    11,   339],
+        [  550,  5710,   465, 12036],
+        [   11,  6405,   257,  5527],
+        [27075,    11,   290,  4920],
+        [ 2241,   287,   257,  4489],
+        [   64,   319,   262, 34686],
+        [41976,    13,   357, 10915]])
 ```
 
 The shape of this tensor is `torch.Size([8, 4]).
@@ -158,3 +142,28 @@ Now this representation (tensor) needs to be converted to embeddings. First, we 
 
 Technically, I created an embedding layer using torch.nn.Embedding(50257, 256). This layer acts as a weight matrix with 50,257 rows and 256 columns. By applying this layer to my tensor, every token ID was replaced by its corresponding 256-dimensional vector. As a result, the output tensor now has a shape of `torch.Size([8, 4, 256])`.
 
+This layer is then applied to the tensor of token IDs. Here is what the output looks like for the first sequence in the batch [287, 262, 6001, 286]:
+```md
+tensor([[ 1.1536, -0.0114,  1.9532,  ..., -0.0769, -0.1139, -0.4395],
+        [-0.7573, -1.6247,  3.7293,  ...,  1.0565, -0.2383,  0.9594],
+        [-1.2008,  0.4604, -0.4043,  ...,  0.9945,  0.3536,  1.0829],
+        [ 0.0353,  0.8891, -1.5133,  ...,  0.4058, -0.0665, -0.0238]],
+       grad_fn=<SelectBackward0>)
+```
+Each row here represents a 256-dimensional vector for each token. The values in the vectors can be both positive and negative.
+
+The next problem is that for the same token ID, the vector representation is always identical, regardless of where the word appears in the text. The solution is to add positional embeddings. But what are they?
+
+Positional embeddings are a component that provides information about the order and position of tokens in a sequence. They are important because they are essential for maintaining the meaning and structure of language. There are three types of positional embeddings: Absolute Positional Embeddings, Relative Positional Embeddings, and the most recent type — Rotary Positional Embeddings.
+
+I practiced implementing Absolute Positional Embeddings. This approach assigns a unique vector to each position, which makes it very simple to implement. For a sequence of 4 tokens, the resulting tensor looks like this:
+```md
+tensor([[-0.0203, -0.5131,  0.0790,  ..., -0.2926,  1.5852, -1.3504],
+        [ 0.7509,  0.5132,  1.0485,  ..., -0.0512, -1.8148,  0.8591],
+        [-0.3285,  0.2146,  0.2122,  ..., -0.4332,  0.0415, -0.2015],
+        [ 0.5400,  0.5376, -0.3311,  ..., -0.6633, -1.4760,  0.7115]],
+       grad_fn=<EmbeddingBackward0>)
+```
+Tensor size: torch.Size([4, 256]). The vectors work as follows: the first row is the vector for the first position (for example, for the token at index 287), the second row is for the second position, and so on.
+
+Finally, these positional vectors are added directly to the main token embeddings.
